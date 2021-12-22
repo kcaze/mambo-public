@@ -1,0 +1,6 @@
+dist
+pzpr-*
+node_modules
+.DS_Store
+.eslintcache
+package-lock.json
