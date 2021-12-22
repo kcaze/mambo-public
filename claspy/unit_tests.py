@@ -589,4 +589,4 @@ require(a != 'x')
 assert not solve()
 
 
-print 'ALL TESTS PASSED'
+print('ALL TESTS PASSED')
