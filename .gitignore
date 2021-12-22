@@ -1,8 +1,6 @@
 claspy/*.pyc
 claspy/learning
 claspy/*.swp
-pzprjs/pzpr-*
-pzprv3/pzprv3-*
 
 dist
 node_modules
