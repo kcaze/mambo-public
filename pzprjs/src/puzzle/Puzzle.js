@@ -447,9 +447,8 @@
           }
           resolve();
         });
-				request.open('GET', '/conpuzzle_solver.php', true);
-				request.setRequestHeader('conpuzzle-input', encodedURL);
-				request.send();
+				request.open('POST', '/solve', true);
+				request.send(encodedURL);
 			});
 		};
 
