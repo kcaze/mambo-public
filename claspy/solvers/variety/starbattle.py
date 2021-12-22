@@ -1,7 +1,7 @@
 from claspy import *
-from _base_ import Base
+from ._base_ import Base
 import itertools
-import utils
+from . import utils
 
 class Starbattle(Base):
   def _solve(self):

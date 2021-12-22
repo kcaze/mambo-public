@@ -1,6 +1,6 @@
 from claspy import *
-from _base_ import Base
-import utils
+from ._base_ import Base
+from . import utils
 
 class Tapa(Base):
   def _solve(self):

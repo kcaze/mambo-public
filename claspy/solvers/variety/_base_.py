@@ -1,6 +1,6 @@
 import math
 import re
-import utils
+from . import utils
 
 class Board:
   def __init__(self, cols, rows):

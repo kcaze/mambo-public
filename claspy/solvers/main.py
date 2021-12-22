@@ -16,6 +16,6 @@ encodedURL = sys.argv[1]
 pid = variety.getPid(encodedURL)
 if pid in variety.solvers:
   solver = variety.solvers[pid](encodedURL)
-  print json.dumps(solver.solve())
+  print(json.dumps(solver.solve()))
 else:
-  print "Unsupported puzzle type %s" % pid
+  print("Unsupported puzzle type %s" % pid)

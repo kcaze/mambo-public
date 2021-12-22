@@ -1,16 +1,16 @@
-from _base_ import parseURL
+from ._base_ import parseURL
 
-import akari
-import building
-import fillomino
-import hashi
-import mashu
-import nurikabe
-import slither
-import starbattle
-import sudoku
-import tapa
-import yajilin
+from . import akari
+from . import building
+from . import fillomino
+from . import hashi
+from . import mashu
+from . import nurikabe
+from . import slither
+from . import starbattle
+from . import sudoku
+from . import tapa
+from . import yajilin
 
 solvers = {
   'akari': akari.Akari,
