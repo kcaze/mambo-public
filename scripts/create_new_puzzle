@@ -16,8 +16,30 @@ TEMPLATE_TYPES = [
   "yajilin",
 ]
 
+GENRES = [
+  "Shading Puzzles",
+  "Areas and Shading Puzzles",
+  "No Adjacent, No Devide",
+  "Make a Loop",
+  "Make a Crossing Loop",
+  "Icebarn like Puzzles",
+  "Connecting Puzzles",
+  "Connection Puzzles",
+  "Moving Puzzles",
+  "Devide into Areas",
+  "Devide into Areas (without number)",
+  "Tatami Puzzles",
+  "Number Puzzles",
+  "Areas and Numbers",
+  "Drawing Puzzles",
+  "Variety Puzzles (with numbers)",
+  "Variety Puzzles (without numbers)",
+]
+
 n = None
 name = None
+proper_name = None
+genre = None
 
 while not n:
   print("Choose a solver template:")
@@ -36,15 +58,41 @@ while not n:
   if not n:
     print("Invalid choice.\n")
 
-template = TEMPLATE_TYPES[n]
+template = TEMPLATE_TYPES[n-1]
+
+n = None
+while not n:
+  print("Choose a genre:")
+  for i in range(len(GENRES)):
+    print(f"({i+1}) {GENRES[i]}")
+  print()
+
+  n = input()
+  try:
+    n = int(n)
+    if n <= 0 or n > len(GENRES):
+      n = None
+  except ValueError:
+    n = None
+
+  if not n:
+    print("Invalid choice.\n")
+
+genre = GENRES[n-1]
 
 while not name:
-  print("Enter name of new puzzle type (lowercase alphabetical only):")
+  print("\nEnter name of new puzzle type (lowercase alphabetical only):")
   name = input()
   if re.search(r"[^a-z]", name):
     name = None
 
   if not name:
+    print("Invalid name.\n")
+
+while not proper_name:
+  print("\nEnter display name of new puzzle:")
+  proper_name = input()
+  if not proper_name:
     print("Invalid name.\n")
 
 directory = path.dirname(path.dirname(path.abspath(__file__)))
@@ -67,4 +115,24 @@ with open(path.join(directory, "solvers.txt"), "r") as f:
   lines = f.readlines()
 with open(path.join(directory, "solvers.txt"), "w") as f:
   lines = lines[:-1] + [f"  \"{name}\",\n", lines[-1]]
+  f.write("".join(lines))
+
+with open(path.join(directory, "pzprjs/src/pzpr/variety.js"), "r") as f:
+  lines = f.readlines()
+with open(path.join(directory, "pzprjs/src/pzpr/variety.js"), "w") as f:
+  prevline = lines[-4].strip() + ",\n"
+  line = f"\t{name}\t:[0,0,\"{proper_name}\", \"{proper_name}\"]\n"
+  lines = lines[:-4] + [prevline, line] + lines[-3:]
+  f.write("".join(lines))
+
+genre_num = 0
+with open(path.join(directory, "pzprv3/src/index.html"), "r") as f:
+  lines = f.readlines()
+  
+  for i in range(len(lines)):
+    if f'<b lang="en">{genre}</b>' in lines[i]:
+      genre_num = i+2
+with open(path.join(directory, "pzprv3/src/index.html"), "w") as f:
+  line = f'    <li data-pid="{name}"></li>'
+  lines = lines[:genre_num] + [line] + lines[genre_num:]
   f.write("".join(lines))
