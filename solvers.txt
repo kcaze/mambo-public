@@ -1,0 +1,13 @@
+SOLVERS = [
+  "akari",
+  "building",
+  "fillomino",
+  "hashi",
+  "mashu",
+  "nurikabe",
+  "slither",
+  "starbattle",
+  "sudoku",
+  "tapa",
+  "yajilin",
+];

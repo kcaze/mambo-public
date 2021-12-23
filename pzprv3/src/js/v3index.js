@@ -1,4 +1,3 @@
-
 (function(){
 
 /* variables */
@@ -444,19 +443,7 @@ var pstate = {
 	orig  :['mochinyoro','ayeheya','aho'],
 	genre :['tapa','arukone','yinyang','building','kropki','starbattle','easyasabc','walllogic'],
   // This has to go at the end for overriding purposes.
-	solvers :[
-    'akari',
-    'building',
-    'fillomino',
-    'hashi',
-    'mashu',
-    'nurikabe',
-    'slither',
-    'starbattle',
-    'sudoku',
-    'tapa',
-    'yajilin',
-  ],
+	solvers : SOLVERS
 };
 var tabstate = {
 	lunch:'lunch', lunch2:'lunch', lunch3:'nigun',

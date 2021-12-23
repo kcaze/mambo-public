@@ -1,6 +1,5 @@
 claspy/*.pyc
 claspy/learning
-claspy/*.swp
 
 dist
 node_modules
@@ -8,3 +7,4 @@ node_modules
 .eslintcache
 .vscode
 package-lock.json
+*.swp

@@ -62,6 +62,9 @@ module.exports = function (grunt) {
       }
     },
 
+    substitute: {
+    },
+
     uglify: {
       options: {
         banner: banner_min,
