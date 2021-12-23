@@ -3,7 +3,8 @@ import subprocess
 
 @get('/<path:re:.*>')
 def server_static(path):
-  print(path)
+  if not path:
+    path = "index.html"
   return static_file(path, root='pzprv3/dist')
 
 @post('/solve')
