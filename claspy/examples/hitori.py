@@ -26,8 +26,7 @@ puzzle = """\
 12 14 1 2 3 15 4 6 4 5 4 13 16 7 17 16 11"""
 
 # Convert puzzle to a 2D array of ints.
-puzzle = map(lambda line: map(int, line.split(' ')),
-             puzzle.split('\n'))
+puzzle = [list(map(int, line.split(' '))) for line in puzzle.split('\n')]
 
 # Create a grid of BoolVars indicating which cells are filled.
 width = len(puzzle)
@@ -76,15 +75,15 @@ for r in range(height):
 
 # Loop to find all solutions.
 while solve():
-    print 'solution:'
+    print('solution:')
     for r in range(height):
         for c in range(width):
             if fill_grid[r][c].value():
-                print '##',
+                print('##', end=' ')
             else:
-                print str(puzzle[r][c]).rjust(2),
-        print
-    print
+                print(str(puzzle[r][c]).rjust(2), end=' ')
+        print()
+    print()
     # Once a solution is found, add a constraint eliminating it.
     x = BoolVar(True)
     for r in range(9):

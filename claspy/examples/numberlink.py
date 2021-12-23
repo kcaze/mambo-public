@@ -19,12 +19,12 @@ puzzle = """\
 ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` ` 1"""
 
 # Convert puzzle to a 2D array.
-puzzle = map(lambda line: line.split(' '), puzzle.split('\n'))
+puzzle = [line.split(' ') for line in puzzle.split('\n')]
 height = len(puzzle)
 width = len(puzzle[0])
 
 # Get the largest number that occurs in the puzzle.
-num_links = max(map(int, filter(lambda x: x != '`', sum(puzzle, []))))
+num_links = max(list(map(int, [x for x in sum(puzzle, []) if x != '`'])))
 
 # Create a grid of variables indicating which link number passes
 # through each cell. The given endpoints are initialized with that
@@ -48,9 +48,9 @@ for r in range(height):
 
 # Loop to find all solutions.
 while solve():
-    print 'solution:'
-    print '\n'.join([' '.join(map(str, row)) for row in grid])
-    print
+    print('solution:')
+    print('\n'.join([' '.join(map(str, row)) for row in grid]))
+    print()
     # Once a solution is found, add a constraint eliminating it.
     x = BoolVar(True)
     for r in range(9):

@@ -18,12 +18,12 @@ puzzle = """\
 6 ` ` ` ` 1 ` ` `"""
 
 # Convert puzzle to a 2D array.
-puzzle = map(lambda line: line.split(' '), puzzle.split('\n'))
+puzzle = [line.split(' ') for line in puzzle.split('\n')]
 height = len(puzzle)
 width = len(puzzle[0])
 
 # Get the largest number that occurs in the puzzle.
-max_val = max(map(int, filter(lambda x: x != '`', sum(puzzle, []))))
+max_val = max(list(map(int, [x for x in sum(puzzle, []) if x != '`'])))
 
 # Restrict the number of bits used for IntVar.
 set_max_val(width*height)
@@ -92,12 +92,12 @@ for r in range(height):
 
 # Loop to find all solutions.
 while solve():
-    print 'solution:'
+    print('solution:')
     for r in range(height):
         for c in range(width):
-            print str(grid[r][c]).rjust(2),
-        print
-    print
+            print(str(grid[r][c]).rjust(2), end=' ')
+        print()
+    print()
     # Once a solution is found, add a constraint eliminating it.
     x = BoolVar(True)
     for r in range(9):
