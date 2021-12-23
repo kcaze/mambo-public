@@ -3,7 +3,7 @@ from ._base_ import Base
 from . import utils
 
 # Note: This puzzle is more commonly known as Skyscrapers.
-class Building(Base):
+class Solver(Base):
   def _solve(self):
     top = self.board.excell[0:self.cols]
     bottom = self.board.excell[self.cols:2*self.cols]

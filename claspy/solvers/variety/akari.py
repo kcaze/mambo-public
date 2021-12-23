@@ -2,7 +2,7 @@ from claspy import *
 from ._base_ import Base
 from . import utils
 
-class Akari(Base):
+class Solver(Base):
   def _solve(self):
     ans = utils.makeGrid(self.cols, self.rows, lambda: BoolVar())
     lit = utils.makeGrid(self.cols, self.rows, lambda: Atom())

@@ -2,7 +2,7 @@ from claspy import *
 from ._base_ import Base
 from . import utils
 
-class Hashi(Base):
+class Solver(Base):
   def _solve(self):
     set_max_val(3)
     horiAns = utils.makeGrid(self.cols-1, self.rows, lambda: IntVar(0,2))

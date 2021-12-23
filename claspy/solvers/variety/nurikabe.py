@@ -2,7 +2,7 @@ from claspy import *
 from ._base_ import Base
 from . import utils
 
-class Nurikabe(Base):
+class Solver(Base):
   def _solve(self):
     set_max_val(self.rows*self.cols)
     ans = [[] for i in range(self.rows)]

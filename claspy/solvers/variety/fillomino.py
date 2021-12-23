@@ -1,7 +1,7 @@
 from claspy import *
 from ._base_ import Base
 from . import utils
-class Fillomino(Base):
+class Solver(Base):
   def _solve(self):
     set_max_val(self.rows*self.cols)
     ans = utils.makeGrid(self.cols, self.rows, lambda: IntVar())

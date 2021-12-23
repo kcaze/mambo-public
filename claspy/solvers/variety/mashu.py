@@ -2,7 +2,7 @@ from claspy import *
 from ._base_ import Base
 from . import utils
 
-class Mashu(Base):
+class Solver(Base):
   def _solve(self):
     horizontalFences = utils.makeGrid(self.cols-1, self.rows, lambda: BoolVar())
     verticalFences = utils.makeGrid(self.rows-1, self.cols, lambda: BoolVar())

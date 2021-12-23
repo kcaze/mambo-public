@@ -3,7 +3,7 @@ from ._base_ import Base
 import itertools
 from . import utils
 
-class Starbattle(Base):
+class Solver(Base):
   def _solve(self):
     stars = utils.makeGrid(self.cols, self.rows, lambda: BoolVar())
     # starCount stars per row

@@ -2,7 +2,7 @@ from claspy import *
 from ._base_ import Base
 from . import utils
 
-class Slither(Base):
+class Solver(Base):
   def _solve(self):
     # Use 8 bits for efficiency
     set_bits(8)

@@ -7,7 +7,7 @@ D = 2
 L = 3
 R = 4
 
-class Yajilin(Base):
+class Solver(Base):
   def _solve(self):
     horizontalFences = [[] for i in range(self.rows)]
     verticalFences = [[] for i in range(self.cols)]

@@ -2,7 +2,7 @@ from claspy import *
 from ._base_ import Base
 from . import utils
 
-class Tapa(Base):
+class Solver(Base):
   def _solve(self):
     ans = [[BoolVar() if self.board.getCell(x,y) == None else False for x in range(self.cols)] for y in range(self.rows)]
 
