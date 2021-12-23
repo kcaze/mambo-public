@@ -3,7 +3,9 @@
 This uses pzprjs/pzprv3 as the frontend UI and claspy as the constraint solving library.
 
 ## Installation
-First run `npm install && grunt dev` in `pzprjs` and then `npm install && grunt dev` in pzprv3.
+Make sure you have `grunt` installed with `sudo npm install -g grunt`.
+
+Next, in the `pzprjs` directory run `npm install && grunt dev` and then in the `pzprv3` directory run `npm install && grunt dev`.
 
 Next, install `clasp`. On Ubuntu/Debian this can be done with `sudo apt-get install clasp`.
 
