@@ -1,0 +1,70 @@
+#!/usr/bin/env python3
+from os import path
+import re, shutil
+
+TEMPLATE_TYPES = [
+  "akari",
+  "building", #skyscrapers
+  "fillomino",
+  "hashi",
+  "mashu",
+  "nurikabe",
+  "slither",
+  "starbattle",
+  "sudoku",
+  "tapa",
+  "yajilin",
+]
+
+n = None
+name = None
+
+while not n:
+  print("Choose a solver template:")
+  for i in range(len(TEMPLATE_TYPES)):
+    print(f"({i+1}) {TEMPLATE_TYPES[i]}")
+  print()
+
+  n = input()
+  try:
+    n = int(n)
+    if n <= 0 or n > len(TEMPLATE_TYPES):
+      n = None
+  except ValueError:
+    n = None
+
+  if not n:
+    print("Invalid choice.\n")
+
+template = TEMPLATE_TYPES[n]
+
+while not name:
+  print("Enter name of new puzzle type (lowercase alphabetical only):")
+  name = input()
+  if re.search(r"[^a-z]", name):
+    name = None
+
+  if not name:
+    print("Invalid name.\n")
+
+directory = path.dirname(path.dirname(path.abspath(__file__)))
+src_js_path = path.join(directory, f"pzprjs/src/variety/{template}.js")
+dest_js_path = path.join(directory, f"pzprjs/src/variety/{name}.js")
+src_py_path = path.join(directory, f"claspy/solvers/variety/{template}.py")
+dest_py_path = path.join(directory, f"claspy/solvers/variety/{name}.py")
+
+shutil.copyfile(src_js_path, dest_js_path)
+shutil.copyfile(src_py_path, dest_py_path)
+
+s = ""
+with open(dest_js_path, "r") as f:
+  s = f.read()
+with open(dest_js_path, "w") as f:
+  f.write(s.replace(template, name))
+
+lines = []
+with open(path.join(directory, "solvers.txt"), "r") as f:
+  lines = f.readlines()
+with open(path.join(directory, "solvers.txt"), "w") as f:
+  lines = lines[:-1] + [f"  \"{name}\",\n", lines[-1]]
+  f.write("".join(lines))
