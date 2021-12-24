@@ -187,7 +187,8 @@ delete variety.extend;
 	yajitatami:[0,0,"ヤジタタミ","Yajitatami"],
 	yinyang   :[0,0,"しろまるくろまる","Yin-Yang"],
 	yosenabe  :[0,0,"よせなべ","Yosenabe"],
-	redsusfillomino	:[0,0,"RED SUS Fillomino", "RED SUS Fillomino"]
+	redsusfillomino	:[0,0,"RED SUS Fillomino", "RED SUS Fillomino"],
+	redsushashi	:[0,0,"redsushashi", "redsushashi"]
 });
 
 })();
