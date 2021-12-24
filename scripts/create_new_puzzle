@@ -4,25 +4,14 @@ import re, shutil
 import solvers
 
 TEMPLATES = solvers.SOLVERS
-GENRES = [
-  "Shading Puzzles",
-  "Areas and Shading Puzzles",
-  "No Adjacent, No Devide",
-  "Make a Loop",
-  "Make a Crossing Loop",
-  "Icebarn like Puzzles",
-  "Connecting Puzzles",
-  "Connection Puzzles",
-  "Moving Puzzles",
-  "Devide into Areas",
-  "Devide into Areas (without number)",
-  "Tatami Puzzles",
-  "Number Puzzles",
-  "Areas and Numbers",
-  "Drawing Puzzles",
-  "Variety Puzzles (with numbers)",
-  "Variety Puzzles (without numbers)",
-]
+GENRES = []
+
+directory = path.dirname(path.dirname(path.abspath(__file__)))
+with open(path.join(directory, "pzprv3/src/index.html"), "r") as f:
+  for line in f.readlines():
+    match = re.search(r'<b data-genre="" lang="en">([^<]*)</b>', line)
+    if match:
+      GENRES.append(match.group(1))
 
 n = None
 name = None
@@ -108,7 +97,7 @@ with open(path.join(directory, "solvers.txt"), "w") as f:
 with open(path.join(directory, "pzprjs/src/pzpr/variety.js"), "r") as f:
   lines = f.readlines()
 with open(path.join(directory, "pzprjs/src/pzpr/variety.js"), "w") as f:
-  prevline = lines[-4].strip() + ",\n"
+  prevline = lines[-4].rstrip() + ",\n"
   line = f"\t{name}\t:[0,0,\"{proper_name}\", \"{proper_name}\"]\n"
   lines = lines[:-4] + [prevline, line] + lines[-3:]
   f.write("".join(lines))
@@ -118,9 +107,9 @@ with open(path.join(directory, "pzprv3/src/index.html"), "r") as f:
   lines = f.readlines()
   
   for i in range(len(lines)):
-    if f'<b lang="en">{genre}</b>' in lines[i]:
+    if f'<b data-genre="" lang="en">{genre}</b>\n' in lines[i]:
       genre_num = i+2
 with open(path.join(directory, "pzprv3/src/index.html"), "w") as f:
-  line = f'    <li data-pid="{name}"></li>'
+  line = f'    <li data-pid="{name}"></li>\n'
   lines = lines[:genre_num] + [line] + lines[genre_num:]
   f.write("".join(lines))
