@@ -110,6 +110,6 @@ with open(path.join(directory, "pzprv3/src/index.html"), "r") as f:
     if f'<b data-genre="" lang="en">{genre}</b>\n' in lines[i]:
       genre_num = i+2
 with open(path.join(directory, "pzprv3/src/index.html"), "w") as f:
-  line = f'    <li data-pid="{name}"></li>'
+  line = f'    <li data-pid="{name}"></li>\n'
   lines = lines[:genre_num] + [line] + lines[genre_num:]
   f.write("".join(lines))
