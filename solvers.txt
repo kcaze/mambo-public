@@ -10,4 +10,5 @@ SOLVERS = [
   "sudoku",
   "tapa",
   "yajilin",
+  "testhashi",
 ];

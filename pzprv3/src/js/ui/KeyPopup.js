@@ -40,7 +40,7 @@ ui.keypopup =
 		sukororoom : [4,4],
 		lookair    : [5,0],
 		tawa       : [6,0],
-		hashikake  : [8,0],
+		hashi  : [8,0],
 		tapa       : [8,0],
 		amibo      : [10,0],
 		bag        : [10,0],

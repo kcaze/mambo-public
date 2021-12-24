@@ -132,7 +132,7 @@ window.ui = {
 	getBoardPadding : function(){
 		var puzzle = ui.puzzle, padding = 0;
 		switch(puzzle.pid){
-			case 'firefly': case 'hashikake': case 'wblink':
+			case 'firefly': case 'hashi': case 'wblink':
 			case 'ichimaga': case 'ichimagam': case 'ichimagax':
 				padding = 0.30; break;
 			

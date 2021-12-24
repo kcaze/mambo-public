@@ -94,7 +94,7 @@ delete variety.extend;
 	gokigen   :[1,0,"ごきげんななめ","Gokigen-naname (Slalom, Slant)",'gokigen'],
 	hakoiri   :[1,0,"はこいり○△□","Hokoiri-masashi"],
 	hanare    :[0,0,"はなれ組","Hanare-gumi",'hanare'],
-	hashikake :[0,1,"橋をかけろ","Hashiwokakero (Bridges)",'',{pzprurl:'hashi',kanpen:'hashi',alias:'bridges'}],
+	hashi :[0,1,"橋をかけろ","Hashiwokakero (Bridges)",'',{pzprurl:'hashi',kanpen:'hashi',alias:'bridges'}],
 	hebi      :[1,0,"へびいちご","Hebi-Ichigo",'',{old:'snakes'}],
 	herugolf  :[0,0,"ヘルゴルフ","Herugolf"],
 	heyawake  :[0,1,"へやわけ","Heyawake",'heyawake'],
@@ -186,7 +186,8 @@ delete variety.extend;
 	yajirin   :[0,1,"ヤジリン","Yajilin",'',{pzprurl:'yajilin',kanpen:'yajilin'}],
 	yajitatami:[0,0,"ヤジタタミ","Yajitatami"],
 	yinyang   :[0,0,"しろまるくろまる","Yin-Yang"],
-	yosenabe  :[0,0,"よせなべ","Yosenabe"]
+yosenabe  :[0,0,"よせなべ","Yosenabe"],
+	testhashi	:[0,0,"testhashi", "testhashi"]
 });
 
 })();

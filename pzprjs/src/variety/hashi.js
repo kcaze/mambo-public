@@ -1,11 +1,11 @@
 //
-// パズル固有スクリプト部 橋をかけろ版 hashikake.js
+// パズル固有スクリプト部 橋をかけろ版 hashi.js
 //
 (function(pidlist, classbase){
 	if(typeof module==='object' && module.exports){module.exports = [pidlist, classbase];}
 	else{ pzpr.classmgr.makeCustom(pidlist, classbase);}
 }(
-['hashikake'], {
+['hashi'], {
 //---------------------------------------------------------
 // マウス入力系
 MouseEvent:{
@@ -189,7 +189,7 @@ Graphic:{
 		this.drawGrid(false, (this.puzzle.editmode && !this.outputImage));
 
 		this.drawPekes();
-		this.drawLines_hashikake();
+		this.drawLines_hashi();
 
 		this.drawCircledNumbers();
 
@@ -197,7 +197,7 @@ Graphic:{
 	},
 
 	// オーバーライド
-	drawLines_hashikake : function(id){
+	drawLines_hashi : function(id){
 		var g = this.vinc('line', 'crispEdges');
 
 		// LineWidth, LineSpace
@@ -237,7 +237,7 @@ Graphic:{
 
 	repaintLines : function(blist){
 		this.range.borders = blist;
-		this.drawLines_hashikake();
+		this.drawLines_hashi();
 
 		if(this.context.use.canvas){ this.repaintParts(blist);}
 	},
@@ -298,21 +298,21 @@ FileIO:{
 
 	kanpenOpenXML : function(){
 		this.decodeCellQnum_XMLBoard();
-		this.decodeBorderLine_hashikake_XMLAnswer();
+		this.decodeBorderLine_hashi_XMLAnswer();
 	},
 	kanpenSaveXML : function(){
 		this.encodeCellQnum_XMLBoard();
-		this.encodeBorderLine_hashikake_XMLAnswer();
+		this.encodeBorderLine_hashi_XMLAnswer();
 	},
 
 	UNDECIDED_NUM_XML : 9,
 
-	decodeBorderLine_hashikake_XMLAnswer : function(){
+	decodeBorderLine_hashi_XMLAnswer : function(){
 		this.decodeCellXMLArow(function(cell, name){
 			cell.setState(+name.substr(1));
 		});
 	},
-	encodeBorderLine_hashikake_XMLAnswer : function(){
+	encodeBorderLine_hashi_XMLAnswer : function(){
 		this.encodeCellXMLArow(function(cell){
 			return 'n'+cell.getState();
 		});

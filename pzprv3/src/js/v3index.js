@@ -425,7 +425,7 @@ var v3index = window.v3index;
 
 var pstate = {
 	lunch :['nurikabe','tilepaint','norinori','nurimaze','heyawake','hitori','slither','mashu','yajilin',
-			'slalom','numlin','hashikake','herugolf','shikaku','tentaisho','kakuro','sudoku','fillomino','ripple',
+			'slalom','numlin','hashi','herugolf','shikaku','tentaisho','kakuro','sudoku','fillomino','ripple',
 			'akari','shakashaka'],
 	testa :['nurimisaki'],
 	trial :[],
