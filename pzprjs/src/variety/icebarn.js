@@ -1045,5 +1045,22 @@ FailCode:{
 	lrOffField : ["盤面の外に出てしまった線があります","A line is not reached out the 'OUT' arrow."],
 	lrReverse : ["矢印を逆に通っています。","A line goes through an arrow reverse."],
 	cuNoLine : ["通過していない白マスがあります。","The line doesn't pass all of the non-icy cell."]
+},
+
+Solver: {
+  displayAnswer: function(solution) {
+    var bd = this.board;
+    for (i = 0; i < this.board.border.length; i++) {
+      let border = this.board.border[i];
+      let val;
+      if (i < (bd.cols-1)*(bd.rows)) {
+        val = solution[0][Math.floor(i / (bd.cols-1))][i % (bd.cols-1)];
+      } else {
+        let j = i-(bd.cols-1)*bd.rows;
+        val = solution[1][j % bd.cols][Math.floor(j / bd.cols)];
+      }
+      border.setLineVal(val);
+    }
+  }
 }
 }));

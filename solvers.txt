@@ -12,4 +12,5 @@ SOLVERS = [
   "yajilin",
   "redsusfillomino",
   "redsushashi",
+  "icebarn",
 ];
