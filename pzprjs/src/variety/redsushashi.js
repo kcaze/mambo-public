@@ -212,24 +212,12 @@ Graphic:{
 
 			g.fillStyle = color;
 			g.vid = "b_line_"+border.id;
-			if(!!color && border.line===1){
+			if(!!color && border.line>=1){
 				if(!isvert){ g.fillRectCenter(px, py, lm, this.bh+lm);}
 				else       { g.fillRectCenter(px, py, this.bw+lm, lm);}
-			}
-			else{ g.vhide();}
-
-			g.vid = "b_dline_"+border.id;
-			if(!!color && border.line===2){
-				g.beginPath();
-				if(!isvert){
-					g.rectcenter(px-ls, py, lm, this.bh+lm);
-					g.rectcenter(px+ls, py, lm, this.bh+lm);
-				}
-				else{
-					g.rectcenter(px, py-ls, this.bw+lm, lm);
-					g.rectcenter(px, py+ls, this.bw+lm, lm);
-				}
-				g.fill();
+        g.fillStyle = "black";
+        g.font = "25px serif";
+        g.fillText(border.line.toString(), px, py); 
 			}
 			else{ g.vhide();}
 		}
