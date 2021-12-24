@@ -11,4 +11,5 @@ SOLVERS = [
   "tapa",
   "yajilin",
   "redsusfillomino",
+  "redsushashi",
 ];
