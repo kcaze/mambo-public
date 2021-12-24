@@ -15,3 +15,8 @@ Finally, run `python3 mambo.py` in the root directory and you should be able to 
 
 ## Development
 Run `grunt watch` in both the `pzprjs` and `pzprv3` directories to setup a watcher that automatically builds whenever you change any of the files in those subdirectories.
+
+## Creating new solvers
+Run `scripts/create_new_puzzle` and follow the script's instructions to set up a new solver. You can select an existing solver as a template.
+
+After running this script, there are two files that you will want to edit. The Python solver file lives in `claspy/solvers/variety/<puzzle>.py` and the Javascript pzpr file lives in `pzprjs/src/variety/<puzzle>.js`.

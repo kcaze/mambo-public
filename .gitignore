@@ -1,6 +1,6 @@
 claspy/*.pyc
 claspy/learning
-
+__pycache__
 dist
 node_modules
 .DS_Store

@@ -1,21 +1,9 @@
 #!/usr/bin/env python3
 from os import path
 import re, shutil
+import solvers
 
-TEMPLATE_TYPES = [
-  "akari",
-  "building", #skyscrapers
-  "fillomino",
-  "hashi",
-  "mashu",
-  "nurikabe",
-  "slither",
-  "starbattle",
-  "sudoku",
-  "tapa",
-  "yajilin",
-]
-
+TEMPLATES = solvers.SOLVERS
 GENRES = [
   "Shading Puzzles",
   "Areas and Shading Puzzles",
@@ -43,14 +31,14 @@ genre = None
 
 while not n:
   print("Choose a solver template:")
-  for i in range(len(TEMPLATE_TYPES)):
-    print(f"({i+1}) {TEMPLATE_TYPES[i]}")
+  for i in range(len(TEMPLATES)):
+    print(f"({i+1}) {TEMPLATES[i]}")
   print()
 
   n = input()
   try:
     n = int(n)
-    if n <= 0 or n > len(TEMPLATE_TYPES):
+    if n <= 0 or n > len(TEMPLATES):
       n = None
   except ValueError:
     n = None
@@ -58,7 +46,7 @@ while not n:
   if not n:
     print("Invalid choice.\n")
 
-template = TEMPLATE_TYPES[n-1]
+template = TEMPLATES[n-1]
 
 n = None
 while not n:
