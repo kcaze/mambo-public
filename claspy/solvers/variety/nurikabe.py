@@ -16,7 +16,7 @@ class Solver(Base):
       for x in range(self.cols):
         cell = self.board.getCell(x,y)
         if cell == None:
-          possibleValues = ['*'] + [v for v in values if (abs(x-(v%self.cols)) + abs(y-int(v/self.cols))) < self.board.getCell(v%self.cols, int(v/self.cols))]
+          possibleValues = ['*'] + [v for v in values if (abs(x-(v%self.cols)) + abs(y-int(v//self.cols))) < self.board.getCell(v%self.cols, int(v//self.cols))]
           ans[y].append(MultiVar(*possibleValues))
         else:
           ans[y].append(y*self.cols+x)
@@ -67,10 +67,10 @@ class Solver(Base):
 
     # Require numbers equal island sizes
     for v in values:
-      y = int(v / self.cols)
+      y = int(v // self.cols)
       x = v % self.cols 
       c = self.board.getCell(x,y)
-      cells = [ans[int(i/self.cols)][i%self.cols] == v for i in range(self.rows*self.cols) if abs(x-(i%self.cols)) + abs(y-int(i/self.cols)) < c]
+      cells = [ans[int(i//self.cols)][i%self.cols] == v for i in range(self.rows*self.cols) if abs(x-(i%self.cols)) + abs(y-int(i//self.cols)) < c]
       require(sum_bools(c, cells))
 
     # Ensure different groups with the same number don't touch
@@ -82,7 +82,7 @@ class Solver(Base):
         require((ans[y][x]=='*')|(ans[y+1][x]=='*')|(ans[y][x]==ans[y+1][x]))
 
     num_solutions = solve(quiet=True)
-    solution = [1 if str(ans[int(i/self.cols)][i%self.cols]=='*') == '1' else 0 for i in range(self.cols*self.rows)]
+    solution = [1 if str(ans[int(i//self.cols)][i%self.cols]=='*') == '1' else 0 for i in range(self.cols*self.rows)]
     return (num_solutions, solution)
 
   def decode(self):

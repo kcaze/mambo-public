@@ -95,21 +95,21 @@ class Base:
     twi = [16,8,4,2,1]
     bd = self.board
     if bstr != "":
-      pos1 = min(((self.cols-1)*self.rows+4)/5, len(bstr))
-      pos2 = min((self.cols*(self.rows-1)+4)/5 + pos1, len(bstr))
+      pos1 = min(((self.cols-1)*self.rows+4)//5, len(bstr))
+      pos2 = min((self.cols*(self.rows-1)+4)//5 + pos1, len(bstr))
     id_ = 0
     for i in range(pos1):
       ca = int(bstr[i], 32)
       for w in range(5):
         if id_ < (self.cols-1)*self.rows:
-          self.board.border[1][id_ / (self.cols-1)][id_ % (self.cols-1)] = 1 if ca & twi[w] != 0 else 0
+          self.board.border[1][id_ // (self.cols-1)][id_ % (self.cols-1)] = 1 if ca & twi[w] != 0 else 0
           id_ += 1
     id_ = 0
     for i in range(pos1, pos2):
       ca = int(bstr[i], 32)
       for w in range(5):
         if id_ < self.cols*(self.rows-1):
-          self.board.border[0][id_ / self.rows][id_ % self.rows] = 1 if ca & twi[w] != 0 else 0
+          self.board.border[0][id_ // self.rows][id_ % self.rows] = 1 if ca & twi[w] != 0 else 0
           id_ += 1
     self.body = self.body[pos2:]
 
@@ -142,11 +142,11 @@ class Base:
     bstr = self.body
     c = 0
     tri = [9,3,1]
-    pos = min((self.cols*self.rows+2)/3, len(bstr))
+    pos = min((self.cols*self.rows+2)//3, len(bstr))
     for i in range(pos):
       ca = int(bstr[i],27)
       for w in range(3):
-        val = (ca/tri[w])%3
+        val = (ca//tri[w])%3
         if val > 0:
           self.board.cell[c] = val
         c += 1
@@ -188,7 +188,7 @@ def parseURL(url):
         if "c" not in pflag:
             col = cols
             row = rows
-            if re.match('[^0]', body[0:((col-1)*row+4)/5 + (col*(row-1)+4)/5]):
+            if re.match('[^0]', body[0:((col-1)*row+4)//5 + (col*(row-1)+4)//5]):
                 pid = 'heyabon'
     elif pid == 'kramma':
         if 'c' not in pflag:

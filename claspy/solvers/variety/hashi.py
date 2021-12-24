@@ -80,8 +80,8 @@ class Solver(Base):
 
     num_solutions = solve(quiet=True)
     solution = [
-      [utils.intify(horiAns[i/(self.cols-1)][i%(self.cols-1)]) for i in range((self.cols-1)*self.rows)],
-      [utils.intify(vertAns[i/self.cols][i%self.cols]) for i in range(self.cols*(self.rows-1))],
+      [utils.intify(horiAns[i//(self.cols-1)][i%(self.cols-1)]) for i in range((self.cols-1)*self.rows)],
+      [utils.intify(vertAns[i//self.cols][i%self.cols]) for i in range(self.cols*(self.rows-1))],
     ]
     return (num_solutions, solution)
 

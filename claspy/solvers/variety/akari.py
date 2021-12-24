@@ -50,7 +50,7 @@ class Solver(Base):
                 l.prove_if(a)
 
     num_solutions = solve(quiet=True)
-    solution = [utils.intify(ans[i/self.cols][i%self.cols]) for i in range(self.cols*self.rows)]
+    solution = [utils.intify(ans[i//self.cols][i%self.cols]) for i in range(self.cols*self.rows)]
     return (num_solutions, solution)
 
   def decode(self):

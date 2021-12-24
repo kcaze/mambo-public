@@ -53,7 +53,7 @@ class Solver(Base):
         require(sum_bools(right[y], [rightViewable[y][x] for x in range(self.cols)]))
 
     num_solutions = solve(quiet=True)
-    solution = [utils.intify(ans[i/self.cols][i%self.cols]) for i in range(self.rows*self.cols)]
+    solution = [utils.intify(ans[i//self.cols][i%self.cols]) for i in range(self.rows*self.cols)]
     return (num_solutions, solution)
 
   def decode(self):

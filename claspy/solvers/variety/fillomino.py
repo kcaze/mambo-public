@@ -102,7 +102,7 @@ class Solver(Base):
           require(~((ans[y][x]==ans[y][x+1])^(rootIdxs[y][x]==rootIdxs[y][x+1])))
 
     num_solutions = solve(quiet=True)
-    solution = [utils.intify(ans[i/self.cols][i%self.cols]) for i in range(self.rows*self.cols)]
+    solution = [utils.intify(ans[i//self.cols][i%self.cols]) for i in range(self.rows*self.cols)]
     return (num_solutions, solution)
 
   def decode(self):

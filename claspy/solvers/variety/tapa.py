@@ -64,7 +64,7 @@ class Solver(Base):
         require(condition)
 
     num_solutions = solve(quiet=True)
-    solution = [1 if str(ans[int(i/self.cols)][i%self.cols]) == '1' else 0 for i in range(self.cols*self.rows)]
+    solution = [1 if str(ans[int(i//self.cols)][i%self.cols]) == '1' else 0 for i in range(self.cols*self.rows)]
     return (num_solutions, solution)
 
   def decode(self):
@@ -86,25 +86,25 @@ class Solver(Base):
         if 360 <= num < 396:
           num -= 360
           val = [0,0]
-          val[0] = int(num/6)
+          val[0] = int(num//6)
           num -= val[0]*6
           val[1] = num
         elif 396 <= num < 460:
           num -= 396
           val = [0,0,0]
-          val[0] = int(num/16)
+          val[0] = int(num//16)
           num -= val[0]*16
-          val[1] = int(num/4)
+          val[1] = int(num//4)
           num -= val[1]*4
           val[2] = num
         elif 460 <= num < 476:
           num -= 460
           val = [0,0,0,0]
-          val[0] = int(num/8)
+          val[0] = int(num//8)
           num -= val[0]*8
-          val[1] = int(num/4)
+          val[1] = int(num//4)
           num -= val[1]*4
-          val[2] = int(num/2)
+          val[2] = int(num//2)
           num -= val[2]*2
           val[3] = num
         self.board.cell[c] = [v if v != 0 else -2 for v in val]
