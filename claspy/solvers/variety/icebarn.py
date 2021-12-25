@@ -5,187 +5,87 @@ from . import utils
 
 class Solver(Base):
   def _solve(self):
-    U = 1
-    L = 1
-    R = 2
-    D = 2
-    arrowsH = utils.makeGrid(self.cols-1, self.rows, lambda: IntVar(0,2))
-    arrowsV = utils.makeGrid(self.rows-1, self.cols, lambda: IntVar(0,2))
+    # Create path of dimensions (width+2) x (height+2) to accomodate for the border.
+    h, v = utils.path(self.cols+2, self.rows+2)
+    utils.require_directed(h,v)
 
-    # Require connected to in/out
-    in_ = self.arrowIn
-    out_ = self.arrowOut
-    if in_[0] == -1:
-      require(
-        (arrowsH[in_[1]][0] == R) |
-        (arrowsV[0][in_[1]] == D if in_[1] < self.rows-1 else False) |
-        (arrowsV[0][in_[1]-1] == U if in_[1] > 0 else False))
-    if out_[0] == -1:
-      require(
-        (arrowsH[out_[1]][0] == L) |
-        (arrowsV[0][out_[1]] == U if out_[1] < self.rows-1 else False) |
-        (arrowsV[0][out_[1]-1] == D if out_[1] > 0 else False))
-    if in_[0] == self.cols:
-      require(
-        (arrowsH[in_[1]][self.cols-2] == L) |
-        (arrowsV[self.cols-1][in_[1]] == D if in_[1] < self.rows-1 else False) |
-        (arrowsV[self.cols-1][in_[1]-1] == U if in_[1] > 0 else False))
-    if out_[0] == self.cols:
-      require(
-        (arrowsH[out_[1]][self.cols-2] == R) |
-        (arrowsV[self.cols-1][out_[1]] == U if out_[1] < self.rows-1 else False) |
-        (arrowsV[self.cols-1][out_[1]-1] == D if out_[1] > 0 else False))
-    if in_[1] == -1:
-      require(
-        (arrowsV[in_[0]][0] == D) |
-        (arrowsH[0][in_[0]] == R if in_[0] < self.cols-1 else False) |
-        (arrowsH[0][in_[0]-1] == L if in_[0] > 0 else False))
-    if out_[1] == -1:
-      require(
-        (arrowsV[out_[0]][0] == U) |
-        (arrowsH[0][out_[0]] == L if out_[0] < self.cols-1 else False) |
-        (arrowsH[0][out_[0]-1] == R if out_[0] > 0 else False))
-    if in_[1] == self.rows:
-      require(
-        (arrowsV[in_[0]][self.rows-2] == U) |
-        (arrowsH[self.rows-1][in_[0]] == R if in_[0] < self.cols-1 else False) |
-        (arrowsH[self.rows-1][in_[0]-1] == L if in_[0] > 0 else False))
-    if out_[1] == self.rows:
-      require(
-        (arrowsV[out_[0]][self.rows-2] == D) |
-        (arrowsH[self.rows-1][out_[0]] == L if out_[0] < self.cols-1 else False) |
-        (arrowsH[self.rows-1][out_[0]-1] == R if out_[0] > 0 else False))
-    
+    # Disallow paths on the outside, except for the in and out.
+    i, o = (self.arrowIn, self.arrowOut)
+    for y in range(self.rows+1):
+      require(v[0][y] == 0)
+      require(v[self.cols+1][y] == 0)
+      if 1 <= y <= self.rows:
+        w = utils.R if (-1,y-1) == i else utils.L if (-1,y-1) == o else 0
+        require(h[0][y] == w)
+        w = utils.L if (self.cols,y-1) == i else utils.R if (self.cols,y-1) == o else 0
+        require(h[self.cols][y] == w)
+    for x in range(self.cols+1):
+      require(h[x][0] == 0)
+      require(h[x][self.rows+1] == 0)
+      if 1 <= x <= self.cols:
+        w = utils.D if (x-1,-1) == i else utils.U if (x-1,-1) == o else 0
+        require(v[x][0] == w)
+        w = utils.U if (x-1,self.rows) == i else utils.D if (x-1,self.rows) == o else 0
+        require(v[x][self.rows] == w)
+
+    # Require in to be connected to out.
+    utils.require_two_points_connected_directed(h,v,i[0]+1,i[1]+1,o[0]+1,o[1]+1)
 
     # Require givens
     for y in range(self.rows):
       for x in range(self.cols-1):
         if self.arrowsH[y][x]:
-          require(arrowsH[y][x] == self.arrowsH[y][x])
-    for y in range(self.cols):
-      for x in range(self.rows-1):
-        if self.arrowsV[y][x]:
-          require(arrowsV[y][x] == self.arrowsV[y][x])
+          require(h[x+1][y+1] == self.arrowsH[y][x])
+    for x in range(self.cols):
+      for y in range(self.rows-1):
+        if self.arrowsV[x][y]:
+          require(v[x+1][y+1] == self.arrowsV[x][y])
 
     # Require directed path must continue along ice
     for y in range(self.rows):
       for x in range(self.cols):
         if self.board.cell[y*self.cols+x] == 0:
           continue
-
-        if y == 0 and self.arrowIn == (x,-1):
-          require(arrowsV[x][0] == D)
-        if y == 0 and self.arrowOut == (x,-1):
-          require(arrowsV[x][0] == U)
-        if y == self.rows-1 and self.arrowIn == (x,self.rows):
-          require(arrowsV[x][self.rows-2] == U)
-        if y == self.rows-1 and self.arrowOut == (x,self.rows):
-          require(arrowsV[x][self.rows-2] == D)
-        if x == 0 and self.arrowIn == (-1, y):
-          require(arrowsH[y][0] == R)
-        if x == 0 and self.arrowOut == (-1, y):
-          require(arrowsH[y][0] == L)
-        if x == self.cols-1 and self.arrowIn == (self.cols, y):
-          require(arrowsH[y][0] == L)
-        if x == self.cols-1 and self.arrowOut == (self.cols, y):
-          require(arrowsH[y][0] == R)
-
-        if 0 < x < self.cols-1:
-          require(arrowsH[y][x-1] == arrowsH[y][x])
-        if 0 < y < self.rows-1:
-          require(arrowsV[x][y-1] == arrowsV[x][y])
+        u,d,l,r = utils.edges(h,v,x+1,y+1)
+        require(l == r)
+        require(u == d)
 
     # Require no crossings on non-ice cells.
     for y in range(self.rows):
       for x in range(self.cols):
         if self.board.cell[y*self.cols+x] != 0:
           continue
-        L = []
-        if y > 0:
-          L.append(arrowsV[x][y-1] != 0)
-        if y < self.rows-1:
-          L.append(arrowsV[x][y] != 0)
-        if x > 0:
-          L.append(arrowsH[y][x-1] != 0)
-        if x < self.cols-1:
-          L.append(arrowsH[y][x] != 0)
-        A = [(x-1,y), (x+1,y), (x,y-1), (x,y+1)]
-        if self.arrowIn in A or self.arrowOut in A:
-          L.append(True)
-        require(sum_bools(2,L) | sum_bools(0,L))
+        utils.require_no_self_intersection_directed(h,v,x+1,y+1)
 
-    # TODO: This isn't correct right now.
-    """
-    # Require single connected path
-    flowH = utils.makeGrid(self.cols-1, self.rows, lambda: Atom())
-    flowV = utils.makeGrid(self.rows-1, self.cols, lambda: Atom())
-    if in_[0] == -1:
-      flowH[in_[1]][0].prove_if(True)
-      if in_[1] < self.rows-1:
-        flowV[0][in_[1]].prove_if(True)
-      if in_[1] > 0:
-        flowV[0][in_[1]-1].prove_if(True)
-    if in_[0] == self.cols:
-      flowH[in_[1]][self.cols-2].prove_if(True)
-      if in_[1] < self.rows-1:
-        flowV[self.cols-1][in_[1]].prove_if(True)
-      if in_[1] > 0:
-        flowV[self.cols-1][in_[1]-1].prove_if(True)
-    if in_[1] == -1:
-      flowV[in_[0]][0].prove_if(True)
-      if in_[0] < self.cols-1:
-        flowH[0][in_[0]].prove_if(True)
-      if in_[0] > 0:
-        flowH[0][in_[0]-1].prove_if(True)
-    if in_[1] == self.rows:
-      flowV[in_[0]][self.rows-2].prove_if(True)
-      if in_[0] < self.cols-1:
-        flowH[self.rows-1][in_[0]].prove_if(True)
-      if in_[0] > 0:
-        flowH[self.rows-1][in_[0]-1].prove_if(True)
+    # Require single path.
+    (comp, ph, pv) = utils.number_components(h,v)
+    require(sum_bools(1, comp))
+    require(sum_bools(2, utils.number_ends(h,v)))
+
+    # Require each icebarn is used.
+    barn_proof = [[Atom() for y in range(self.rows)] for x in range(self.cols)]
     for y in range(self.rows):
       for x in range(self.cols):
-        if y < self.rows-1:
-          flowV[x][y].prove_if(
-            ((arrowsV[x][y] == D) &
-              (
-                (((arrowsH[y][x] == L) & flowH[y][x]) if x < self.cols-1 else False) |
-                (((arrowsH[y][x-1] == R) & flowH[y][x-1]) if x > 0 else False) |
-                (((arrowsV[x][y-1] == D) & flowV[x][y-1]) if y > 0 else False)
-              )
-            ) |
-            ((arrowsV[x][y] == U) &
-              (
-                (((arrowsH[y+1][x] == L) & flowH[y+1][x]) if x < self.cols-1 else False) |
-                (((arrowsH[y+1][x-1] == R) & flowH[y+1][x-1]) if x > 0 else False) |
-                (((arrowsV[x][y+1] == U) & flowV[x][y+1]) if y < self.rows-2 else False)
-              )
-            ))
-          require(cond(arrowsV[x][y] != 0, flowV[x][y], True))
-        if x < self.cols-1:
-          flowH[y][x].prove_if(
-            ((arrowsH[y][x] == R) &
-              (
-                (((arrowsV[x][y] == U) & flowV[x][y]) if y < self.rows-1 else False) |
-                (((arrowsV[x][y-1] == D) & flowV[x][y-1]) if y > 0 else False) |
-                (((arrowsH[y][x-1] == R) & flowH[y][x-1]) if x > 0 else False)
-              )
-            ) |
-            ((arrowsH[y][x] == L) &
-              (
-                (((arrowsV[x+1][y] == U) & flowV[x+1][y]) if y < self.rows - 1 else False) |
-                (((arrowsV[x+1][y-1] == D) & flowV[x+1][y-1]) if y > 0 else False) |
-                (((arrowsH[y][x+1] == L) & flowH[y][x+1]) if x < self.cols-2 else False)
-              )
-            ))
-          require(cond(arrowsH[y][x] != 0, flowH[y][x], True))
-    """
+        if self.board.cell[y*self.cols+x] == 0:
+          continue
+        require(barn_proof[x][y])
+        u,d,l,r = utils.edges(h,v,x+1,y+1)
+        barn_proof[x][y].prove_if(at_least(1, [u != 0, d != 0, l != 0, r != 0]))
+        if y > 0 and self.board.cell[(y-1)*self.cols+x] != 0:
+          barn_proof[x][y].prove_if(barn_proof[x][y-1])
+        if y < self.rows-1 and self.board.cell[(y+1)*self.cols+x] != 0:
+          barn_proof[x][y].prove_if(barn_proof[x][y+1])
+        if x > 0 and self.board.cell[y*self.cols+x-1] != 0:
+          barn_proof[x][y].prove_if(barn_proof[x-1][y])
+        if x < self.cols-1 and self.board.cell[y*self.cols+x+1] != 0:
+          barn_proof[x][y].prove_if(barn_proof[x+1][y])
     
     num_solutions = solve(quiet=True)
     solution = [
-      [[utils.intify(i) for i in r] for r in arrowsH],
-      [[utils.intify(i) for i in c] for c in arrowsV],
+      [[utils.intify(i) for i in r] for r in h],
+      [[utils.intify(i) for i in c] for c in v],
     ]
+    #print(ph, pv)
     return (num_solutions, solution)
 
   def decode(self):

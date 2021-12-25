@@ -1054,10 +1054,23 @@ Solver: {
       let border = this.board.border[i];
       let val;
       if (i < (bd.cols-1)*(bd.rows)) {
-        val = solution[0][Math.floor(i / (bd.cols-1))][i % (bd.cols-1)];
-      } else {
+        val = solution[0][1 + i % (bd.cols-1)][1 + Math.floor(i / (bd.cols-1))];
+      } else if (i < (bd.cols-1)*(bd.rows) + bd.cols*(bd.rows-1)) {
         let j = i-(bd.cols-1)*bd.rows;
-        val = solution[1][j % bd.cols][Math.floor(j / bd.cols)];
+        val = solution[1][1 + j % bd.cols][1 + Math.floor(j / bd.cols)];
+      } else {
+        let j = i-(bd.cols-1)*bd.rows-bd.cols*(bd.rows-1);
+        if (j < bd.cols) {
+          val = solution[1][1+j][0];
+        } else if (j < 2*bd.cols) {
+          val = solution[1][1+j-bd.cols][bd.rows];
+        } else if (j < 2*bd.cols + bd.rows) {
+          j -= 2*bd.cols;
+          val = solution[0][0][j+1]
+        } else {
+          j -= 2*bd.cols+bd.rows;
+          val = solution[0][bd.cols][j+1]
+        }
       }
       border.setLineVal(val);
     }
