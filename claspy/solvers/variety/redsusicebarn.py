@@ -50,10 +50,10 @@ class Solver(Base):
         require(l == r)
         require(u == d)
 
-    # Require no crossings on non-ice cells.
+    # Require no crossings on ice cells.
     for y in range(self.rows):
       for x in range(self.cols):
-        if self.board.cell[y*self.cols+x] != 0:
+        if self.board.cell[y*self.cols+x] == 0:
           utils.require_no_multisourcesinks_directed(h,v,x+1,y+1)
         else:
           utils.require_no_self_intersection_directed(h,v,x+1,y+1)

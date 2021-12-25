@@ -13,4 +13,5 @@ SOLVERS = [
   "redsusfillomino",
   "redsushashi",
   "icebarn",
+  "redsusicebarn",
 ];

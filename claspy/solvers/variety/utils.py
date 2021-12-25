@@ -187,7 +187,7 @@ def require_part_of_simple_loop_directed(h,v,x,y):
 # Require's that the in-degree and out-degree at the center of square (x,y) are
 # both 0, both 1, or both 2
 # h and v are the horizontal and vertical edges.
-def require_part_of_loop_undirected(h,v,x,y):
+def require_part_of_loop_directed(h,v,x,y):
   u,d,l,r = edges(h,v,x,y)
   in_edges = [u == D, d == U, l == R, r == L]
   out_edges = [u == U, d == D, l == L, r == R]
@@ -195,6 +195,19 @@ def require_part_of_loop_undirected(h,v,x,y):
     (sum_bools(0, in_edges) & sum_bools(0, out_edges))
     | (sum_bools(1, in_edges) & sum_bools(1, out_edges))
     | (sum_bools(2, in_edges) & sum_bools(2, out_edges))
+  )
+
+# Require in-degree and out-degree not differing by more than 1
+# h and v are the horizontal and vertical edges.
+def require_no_multisourcesinks_directed(h,v,x,y):
+  u,d,l,r = edges(h,v,x,y)
+  in_edges = [u == D, d == U, l == R, r == L]
+  out_edges = [u == U, d == D, l == L, r == R]
+  require(
+    at_most(2, in_edges)
+    & at_most(2, out_edges)
+    & (~(sum_bools(2, in_edges) & at_most(1, out_edges)))
+    & (~(sum_bools(2, out_edges) & at_most(1, in_edges)))
   )
 
 # Require's that there is a directed path from the center of square (x1, y1) to the
